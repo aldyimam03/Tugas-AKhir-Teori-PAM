@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.TA_PAM"
+        tools:targetApi="31">
+        <activity
+            android:name=".UI.EditProfile"
+            android:exported="false" />
+        <activity
+            android:name=".UI.Upload"
+            android:exported="false" />
+        <activity
+            android:name=".UI.ProfilePage"
+            android:exported="false" />
+        <activity
+            android:name=".UI.EditPage"
+            android:exported="false" />
+        <activity
+            android:name=".UI.AddPage"
+            android:exported="false" />
+        <activity
+            android:name=".UI.SeeAll"
+            android:exported="false" />
+        <activity
+            android:name=".UI.SettingPage"
+            android:exported="false" />
+        <activity
+            android:name=".UI.CheckWeatherPage"
+            android:exported="false" />
+        <activity
+            android:name=".UI.DetailDestinationPage"
+            android:exported="false" />
+        <activity
+            android:name=".UI.FavoritePage"
+            android:exported="false" />
+        <activity
+            android:name=".UI.VersionPage"
+            android:exported="false" />
+        <activity
+            android:name=".UI.ContactPage"
+            android:exported="false" />
+        <activity
+            android:name=".UI.ResetPasswordPage"
+            android:exported="false" />
+        <activity
+            android:name=".UI.OTPPage"
+            android:exported="false" />
+        <activity
+            android:name=".UI.HomePage"
+            android:exported="false" />
+        <activity
+            android:name=".UI.ForgotPasswordPage"
+            android:exported="false" />
+        <activity
+            android:name=".UI.SignUpPage"
+            android:exported="false" />
+        <activity
+            android:name=".UI.SignInPage"
+            android:exported="false" />
+        <activity
+            android:name=".UI.OnBoardingPage"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
+    </application>
+
+</manifest>

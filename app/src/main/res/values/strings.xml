@@ -1,0 +1,47 @@
+<resources>
+    <string name="app_name">TA_PAM</string>
+
+    // onBoardingPage
+    <string name="EASY_GO">EASY - GO</string>
+    <string name="FINDYOURFREEDOM">FIND YOUR FREEDOM HERE</string>
+    <string name="everything_you_can_imagine_is_here">everything you can imagine is here</string>
+    <string name="Dont_have_any_account">Dont have any account ?</string>
+    <string name="signUp"><u>Sign Up</u></string>
+
+    // signInPage
+    <string name="Welcome_Back">Welcome Back !</string>
+    <string name="Sign_in_to_your_account">Sign in to your account</string>
+    <string name="Forgot_Password">Forgot Password ?</string>
+    <string name="Or_login_with">Or login with</string>
+
+    // Edit Page
+    <string name="Nama">Nama</string>
+    <string name="Lokasi">Lokasi</string>
+    <string name="Deskripsi">Deskripsi</string>
+
+
+    // signUpPage
+    <string name="Register_Your_Account">Register Your Account</string>
+
+    // detailDestinationPage
+    <string name="Destination_desc">Pura Maharaja berada di pinggir tebing karang area Blue Point, Pantai Suluban, Uluwatu, Pura Maharaja menjadi salah satu tempat wisata yang selalu ramai dikunjungi wisatawan. Tak heran begitu karena tempat ini menawarkan pemandangan yang menyejukkan mata dan membuat tubuh relaks.
+
+Jika ingin ke Pura Maharaja, datanglah di sore hari. Sembari menikmati makanan lezat, kamu bisa melihat matahari terbenam yang sangat indah. Apalagi, ada penampilan upacara ibadah umat Hindu yang semakin membuat kamu merasa betah di sini. Jangan lupa siapkan kamera dan berfoto dengan latar belakang pura yang cantik."</string>
+    // OTPPage
+    <string name="ResendCode"><u>Resend code</u></string>
+
+    // Home Page
+    <string name="curr_location">Current Location</string>
+    <string name="location">City, Country</string>
+    <string name="hello">Hello!</string>
+    <string name="user">FighterAx123</string>
+    <string name="search">Search destination...</string>
+    <string name="for_you">Destination For You</string>
+    <string name="see_all">See All</string>
+    <string name="destination">Destination</string>
+    <string name="check_location">Check Location</string>
+    <string name="check_weather">Check Weather</string>
+    <string name="profile">Profile</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>

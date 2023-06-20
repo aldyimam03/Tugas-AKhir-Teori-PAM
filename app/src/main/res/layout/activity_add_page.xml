@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/padang_pasir_gelap"
+    tools:context=".UI.EditPage">
+
+
+    <EditText
+        android:id="@+id/editLokasi1"
+        android:layout_width="319dp"
+        android:layout_height="48dp"
+        android:background="@drawable/shape_putih"
+        android:ems="10"
+        android:fontFamily="@font/montserrat"
+        android:inputType="textPersonName"
+        android:paddingStart="20dp"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="@+id/tvLokasi"
+        app:layout_constraintTop_toBottomOf="@+id/tvLokasi" />
+
+    <TextView
+        android:id="@+id/tvLokasi"
+        android:layout_width="80dp"
+        android:layout_height="32dp"
+        android:fontFamily="@font/montserrat_extrabold"
+        android:text="@string/Lokasi"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="@+id/editNama1"
+        app:layout_constraintTop_toBottomOf="@+id/editNama1" />
+
+    <EditText
+        android:id="@+id/editNama1"
+        android:layout_width="319dp"
+        android:layout_height="48dp"
+        android:background="@drawable/shape_putih"
+        android:ems="10"
+        android:fontFamily="@font/montserrat"
+        android:inputType="textPersonName"
+        android:paddingStart="20dp"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="@+id/tvNama"
+        app:layout_constraintTop_toBottomOf="@+id/tvNama" />
+
+    <Button
+        android:id="@+id/btSaveDestiantion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#3F95EC"
+        android:text="Add"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editDeskripsi1"
+        app:layout_constraintVertical_bias="0.39" />
+
+    <TextView
+        android:id="@+id/tvNama"
+        android:layout_width="80dp"
+        android:layout_height="32dp"
+        android:layout_marginTop="76dp"
+        android:fontFamily="@font/montserrat_extrabold"
+        android:text="@string/Nama"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.108"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView22" />
+
+    <TextView
+        android:id="@+id/tvDeskripsi"
+        android:layout_width="102dp"
+        android:layout_height="34dp"
+        android:fontFamily="@font/montserrat_extrabold"
+        android:text="@string/Deskripsi"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="@+id/editLokasi1"
+        app:layout_constraintTop_toBottomOf="@+id/editLokasi1" />
+
+    <EditText
+        android:id="@+id/editDeskripsi1"
+        android:layout_width="318dp"
+        android:layout_height="292dp"
+        android:background="@drawable/shape_putih"
+        android:ems="10"
+        android:fontFamily="@font/montserrat"
+        android:gravity="start|top"
+        android:inputType="textMultiLine"
+        android:padding="20dp"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="@+id/tvDeskripsi"
+        app:layout_constraintTop_toBottomOf="@+id/tvDeskripsi" />
+
+
+    <ImageView
+        android:id="@+id/ivBackAdd"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView22"
+        app:srcCompat="@drawable/icon_back_button" />
+
+    <TextView
+        android:id="@+id/textView22"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="@drawable/shape_biru"
+        android:fontFamily="@font/montserrat_bold"
+        android:textAlignment="center"
+        android:paddingTop="23dp"
+        android:textSize="24sp"
+        android:textColor="@color/white"
+        android:text="Add"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

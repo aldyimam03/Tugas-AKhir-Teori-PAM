@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "84608152998",
+    "firebase_url": "https://uap-pam-1-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "uap-pam-1",
+    "storage_bucket": "uap-pam-1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:84608152998:android:8331a6fa5e5ca197978b67",
+        "android_client_info": {
+          "package_name": "aiw.mobile.ta_pam"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "84608152998-oote98934n0vm2pak7jg063bhi8thc42.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "aiw.mobile.ta_pam",
+            "certificate_hash": "0ece7d4f89707e30b15e13f959f36ef3d27a3bce"
+          }
+        },
+        {
+          "client_id": "84608152998-iqssgqdr86l91to3eps4gee91os7n3d3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCJr_Y2W5WUr9uRgenqiEUzPEACXY-L4MQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "84608152998-2c8jbardl99je7ss5n721vtsmodflneo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
