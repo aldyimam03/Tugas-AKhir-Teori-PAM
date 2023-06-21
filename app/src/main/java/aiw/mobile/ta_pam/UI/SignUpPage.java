@@ -92,7 +92,7 @@ public class SignUpPage extends AppCompatActivity {
                     String email = et_email.getText().toString();
 
                     // Simpan data pengguna ke Firebase Realtime Database
-                    User newUser = new User(userId, fullname, username, email);
+                    User newUser = new User(userId, fullname, username, email, "/profile.png");
                     users.child(userId).setValue(newUser);
 
                     Intent intent = new Intent(SignUpPage.this, SignInPage.class);

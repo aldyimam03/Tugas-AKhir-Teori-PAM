@@ -2,7 +2,6 @@ package aiw.mobile.ta_pam.UI;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -14,7 +13,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -29,7 +27,6 @@ public class EditProfile extends AppCompatActivity {
     private ImageView ivBack;
 
     private FirebaseAuth mAuth;
-
     private DatabaseReference usersRef;
 
     @Override
@@ -46,7 +43,6 @@ public class EditProfile extends AppCompatActivity {
         btnSaveChanges = findViewById(R.id.btnSaveChanges);
         ivBack = findViewById(R.id.ivBackToProfile);
 
-
         // Mendapatkan intent yang dikirimkan dari ProfilePage
         Intent intent = getIntent();
         if (intent != null) {
@@ -60,8 +56,7 @@ public class EditProfile extends AppCompatActivity {
             etNewUsername.setText(username);
 
             ivBack.setOnClickListener(view -> {
-                Intent intent1 = new Intent(this, ProfilePage.class);
-                startActivity(intent1);
+                finish();
             });
 
             btnSaveChanges.setOnClickListener(view -> {
@@ -78,38 +73,18 @@ public class EditProfile extends AppCompatActivity {
                     String userUid = currentUser.getUid();
                     DatabaseReference userRef = usersRef.child(userUid);
 
-                    // Memperbarui data pengguna di Firebase menggunakan Runnable dan Handler
-                    updateProfileInFirebase(userRef, updatedUser);
+                    // Memperbarui data pengguna di Firebase
+                    userRef.child("fullname").setValue(updatedUser.getFullname());
+                    userRef.child("username").setValue(updatedUser.getUsername());
+
+                    // Kembali ke Activity sebelumnya dengan membawa data yang diubah
+                    Intent resultIntent = new Intent();
+                    resultIntent.putExtra("newName", newName);
+                    resultIntent.putExtra("newUsername", newUsername);
+                    setResult(RESULT_OK, resultIntent);
+                    finish();
                 }
             });
         }
     }
-    private void updateProfileInFirebase(DatabaseReference userRef, User updatedUser) {
-        // Menampilkan ProgressDialog atau ProgressBar jika diperlukan
-
-        // Menjalankan kode pembaruan Firebase di thread latar belakang
-        new Thread(() -> {
-            try {
-                // Memperbarui data pengguna di Firebase
-                userRef.child("fullName").setValue(updatedUser.getFullname());
-
-                // Mengirim pesan ke Handler untuk menampilkan toast di UI thread
-                handler.post(() -> {
-                    // Menampilkan Toast di UI thread
-                    Toast.makeText(EditProfile.this, "Profile updated successfully", Toast.LENGTH_SHORT).show();
-                    finish();
-                });
-            } catch (Exception e) {
-                e.printStackTrace();
-
-                // Mengirim pesan ke Handler untuk menampilkan toast di UI thread
-                handler.post(() -> {
-                    // Menampilkan Toast di UI thread
-                    Toast.makeText(EditProfile.this, "Failed to update profile", Toast.LENGTH_SHORT).show();
-                });
-            }
-        }).start();
-    }
-
-    private Handler handler = new Handler();
 }

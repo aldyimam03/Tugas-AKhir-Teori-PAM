@@ -2,13 +2,13 @@ package aiw.mobile.ta_pam.UI;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.animation.ScaleAnimation;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -22,13 +22,12 @@ import aiw.mobile.ta_pam.databinding.ActivityProfilePageBinding;
 
 public class ProfilePage extends AppCompatActivity {
 
-    FirebaseAuth mAuth;
+    private static final int REQUEST_CODE_EDIT_PROFILE = 1;
 
-    DatabaseReference databaseReference, users;
+    private FirebaseAuth mAuth;
+    private DatabaseReference usersRef;
+
     private ActivityProfilePageBinding binding;
-    private boolean isZoomed = false;
-    private float pivotX;
-    private float pivotY;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,15 +36,13 @@ public class ProfilePage extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         mAuth = FirebaseAuth.getInstance();
+        usersRef = FirebaseDatabase.getInstance().getReference().child("users");
 
-        databaseReference = FirebaseDatabase.getInstance("https://uap-pam-1-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference();
-        users = this.databaseReference.child("users");
-
-        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null) {
             String userUid = currentUser.getUid();
 
-            this.users.child(mAuth.getUid()).addValueEventListener(new ValueEventListener() {
+            usersRef.child(userUid).addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     if (dataSnapshot.exists()) {
@@ -63,12 +60,9 @@ public class ProfilePage extends AppCompatActivity {
             });
         }
 
-        // setOnClickListener untuk zoom gambar
-        binding.ivMyImage.setOnClickListener(v -> toggleZoom());
-
-        // setOnClickListener untuk kembali ke halaman home page
+        // setOnClickListener untuk pindah ke halaman home
         binding.ivBackProfile.setOnClickListener(view -> {
-            Intent intent = new Intent(ProfilePage.this, HomePage.class);
+            Intent intent = new Intent(this, HomePage.class);
             startActivity(intent);
         });
 
@@ -86,47 +80,55 @@ public class ProfilePage extends AppCompatActivity {
             String fullname = binding.tvFullName.getText().toString();
             String email = binding.tvEmail.getText().toString();
             String username = binding.tvUsername.getText().toString();
+            String profilePicture = ""; // Mengambil URL foto profil dari Firebase Realtime Database
 
             // Menambahkan data pengguna ke intent
             intent.putExtra("fullname", fullname);
             intent.putExtra("email", email);
             intent.putExtra("username", username);
+            intent.putExtra("profilePicture", profilePicture);
 
             // Memulai aktivitas EditProfile dengan intent yang sudah diisi
-            startActivity(intent);
+            startActivityForResult(intent, REQUEST_CODE_EDIT_PROFILE);
         });
-
-
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_EDIT_PROFILE && resultCode == RESULT_OK) {
+            // Perbarui data profil jika ada data yang diubah
+            String newName = data.getStringExtra("newName");
+            String newUsername = data.getStringExtra("newUsername");
+            String newProfilePicture = data.getStringExtra("newProfilePicture");
+
+            binding.tvFullName.setText(newName);
+            binding.tvUsername.setText(newUsername);
+
+            if (newProfilePicture != null && !newProfilePicture.isEmpty()) {
+                // Memuat foto profil baru menggunakan Glide
+                Glide.with(this)
+                        .load(newProfilePicture)
+                        .apply(RequestOptions.circleCropTransform())
+                        .into(binding.ivMyImage);
+            }
+
+            Toast.makeText(this, "Profile updated successfully", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
 
     private void displayUserInfo(User user) {
         // Menampilkan data User pada tampilan ProfilePage
         binding.tvFullName.setText(user.getFullname());
         binding.tvEmail.setText(user.getEmail());
         binding.tvUsername.setText(user.getUsername());
-    }
 
-    public void toggleZoom() {
-        ImageView ivMyImage = binding.ivMyImage;
-        float scaleFactor = 1.5f;
-        if (isZoomed) {
-            // Reset zoom
-            ScaleAnimation scaleAnimation = new ScaleAnimation(scaleFactor, 1.0f, scaleFactor, 1.0f, pivotX, pivotY);
-            scaleAnimation.setDuration(100);
-            scaleAnimation.setFillAfter(true);
-            ivMyImage.startAnimation(scaleAnimation);
-            isZoomed = false;
-        } else {
-            // Saat zoom in
-            float viewWidth = ivMyImage.getWidth();
-            float viewHeight = ivMyImage.getHeight();
-            pivotX = viewWidth / 2;
-            pivotY = viewHeight / 2;
-            ScaleAnimation scaleAnimation = new ScaleAnimation(1.0f, scaleFactor, 1.0f, scaleFactor, pivotX, pivotY);
-            scaleAnimation.setDuration(100);
-            scaleAnimation.setFillAfter(true);
-            ivMyImage.startAnimation(scaleAnimation);
-            isZoomed = true;
-        }
+        // Memuat foto profil menggunakan Glide
+        Glide.with(this)
+                .load(user.getProfilePicture())
+                .apply(RequestOptions.circleCropTransform())
+                .into(binding.ivMyImage);
     }
 }

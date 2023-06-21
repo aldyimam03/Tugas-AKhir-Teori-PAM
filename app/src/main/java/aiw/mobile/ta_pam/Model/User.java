@@ -8,21 +8,31 @@ public class User implements Parcelable {
     private String fullname;
     private String username;
     private String email;
+    private String profilePicture;
 
     public User() {
         // Diperlukan konstruktor kosong untuk deserialisasi dari Firebase Realtime Database
     }
 
-    public User(String userId, String fullname, String username, String email) {
+    public User(String userId, String fullname, String username, String email, String profilePicture) {
         this.userId = userId;
         this.fullname = fullname;
         this.username = username;
         this.email = email;
+        this.profilePicture = profilePicture;
     }
 
     public User(String fullname, String username){
         this.fullname = fullname;
         this.username = username;
+    }
+
+    public String getProfilePicture() {
+        return profilePicture;
+    }
+
+    public void setProfilePicture(String profilePicture) {
+        this.profilePicture = profilePicture;
     }
 
     public String getUserId() {
@@ -39,6 +49,22 @@ public class User implements Parcelable {
 
     public String getEmail() {
         return email;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public void setFullname(String fullname) {
+        this.fullname = fullname;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     // Implementasi Parcelable
