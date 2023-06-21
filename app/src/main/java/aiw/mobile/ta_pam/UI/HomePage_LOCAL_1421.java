@@ -117,7 +117,7 @@ public class HomePage extends AppCompatActivity {
                 .commit();
 
 
-        // Dummy
+    // Dummy
 //        destinationArrayList = new ArrayList<>();
 //
 //        Destination destination1 = new Destination("Pantai", "Dingin", "Malang");
@@ -129,7 +129,7 @@ public class HomePage extends AppCompatActivity {
     }
 
     @Override
-    protected void onStart() {
+    protected void onStart () {
         super.onStart();
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null) {
@@ -138,8 +138,8 @@ public class HomePage extends AppCompatActivity {
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult ( int requestCode, @NonNull String[] permissions,
+                                             @NonNull int[] grantResults){
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == 10) {
             if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
@@ -153,7 +153,7 @@ public class HomePage extends AppCompatActivity {
         }
     }
 
-    private void getLocation() {
+    private void getLocation () {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // Meminta izin lokasi

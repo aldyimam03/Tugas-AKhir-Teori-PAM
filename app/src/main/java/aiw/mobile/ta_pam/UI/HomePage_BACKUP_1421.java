@@ -137,6 +137,31 @@ public class HomePage extends AppCompatActivity {
         }
     }
 
+<<<<<<< HEAD
+=======
+    private void getAllData() {
+        this.destiantion.child(mAuth.getUid()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                destinationArrayList = new ArrayList<>();
+                for (DataSnapshot s : snapshot.getChildren()) {
+                    Destination d = s.getValue(Destination.class);
+                    System.out.println(d.getNama());
+                    d.setKey(s.getKey());
+                    destinationArrayList.add(d);
+                }
+                adapterDestination = new AdapterDestination(destinationArrayList, getApplicationContext());
+                Test.setAdapter(adapterDestination);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                System.out.println("error");
+            }
+        });
+    }
+
+>>>>>>> 8c319d78f45349e12db66f5e6822131c4c7ca953
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {

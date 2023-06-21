@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -51,13 +50,19 @@ public class HomePage extends AppCompatActivity {
     Button checkWeather, checkLocation, btnAdd;
     private Geocoder geocoder;
     FirebaseAuth mAuth;
+    FirebaseDatabase firebaseDatabase;
+    DatabaseReference databaseReference;
+    DatabaseReference destiantion;
+    private AdapterDestination adapterDestination;
     FusedLocationProviderClient locationProviderClient;
 
-    private FragmentManager fm;
-    private DestinationListFragment destinationListFragment;
+    RecyclerView Test;
+    private ArrayList<Destination> destinationArrayList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
 
@@ -73,6 +78,9 @@ public class HomePage extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         geocoder = new Geocoder(this, Locale.getDefault());
         locationProviderClient = LocationServices.getFusedLocationProviderClient(HomePage.this);
+
+        databaseReference = FirebaseDatabase.getInstance("https://uap-pam-1-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference();
+        destiantion = this.databaseReference.child("destination");
 
         checkLocation.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,15 +117,8 @@ public class HomePage extends AppCompatActivity {
             startActivity(intent);
         });
 
-        this.fm = getSupportFragmentManager();
-        this.destinationListFragment = new DestinationListFragment();
 
-        fm.beginTransaction()
-                .add(R.id.frameRecyclerView, destinationListFragment,"FDestination")
-                .commit();
-
-
-        // Dummy
+    // Dummy
 //        destinationArrayList = new ArrayList<>();
 //
 //        Destination destination1 = new Destination("Pantai", "Dingin", "Malang");
@@ -126,10 +127,16 @@ public class HomePage extends AppCompatActivity {
 //        destinationArrayList.add(destination2);
 //        Destination destination3 = new Destination("Air Terjun", "Dalam", "Malang");
 //        destinationArrayList.add(destination3);
+
+        Test = findViewById(R.id.rv_Homepage);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        Test.setLayoutManager(layoutManager);
+
+        getAllData();
     }
 
     @Override
-    protected void onStart() {
+    protected void onStart () {
         super.onStart();
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null) {
@@ -137,9 +144,30 @@ public class HomePage extends AppCompatActivity {
         }
     }
 
+    private void getAllData(){
+        this.destiantion.child(mAuth.getUid()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                destinationArrayList = new ArrayList<>();
+                for (DataSnapshot s: snapshot.getChildren()){
+                    Destination d = s.getValue(Destination.class);
+                    System.out.println(d.getNama());
+                    d.setKey(s.getKey());
+                    destinationArrayList.add(d);
+                }
+                adapterDestination = new AdapterDestination(destinationArrayList);
+                Test.setAdapter(adapterDestination);
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                System.out.println("error");
+            }
+        });
+    }
+
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult ( int requestCode, @NonNull String[] permissions,
+                                             @NonNull int[] grantResults){
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == 10) {
             if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
@@ -153,7 +181,7 @@ public class HomePage extends AppCompatActivity {
         }
     }
 
-    private void getLocation() {
+    private void getLocation () {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // Meminta izin lokasi

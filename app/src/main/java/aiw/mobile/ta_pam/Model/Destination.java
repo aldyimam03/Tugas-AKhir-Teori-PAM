@@ -9,16 +9,18 @@ public class Destination implements Parcelable {
     private String nama;
     private String deskripsi;
     private String lokasi;
+    private String image;
     private String key;
 
     public Destination() {
         // Diperlukan konstruktor tanpa argumen kosong untuk Firebase Realtime Database.
     }
 
-    public Destination(String nama, String lokasi, String deskripsi) {
+    public Destination(String nama, String lokasi, String deskripsi, String image) {
         this.nama = nama;
         this.lokasi = lokasi;
         this.deskripsi = deskripsi;
+        this.image = image;
     }
 
     public String getKey() {
@@ -53,6 +55,14 @@ public class Destination implements Parcelable {
         return nama;
     }
 
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -64,15 +74,18 @@ public class Destination implements Parcelable {
         dest.writeString(this.nama);
         dest.writeString(this.lokasi);
         dest.writeString(this.deskripsi);
+        dest.writeString(this.image);
     }
-    private Destination(Parcel in){
+
+    private Destination(Parcel in) {
         this.key = in.readString();
         this.nama = in.readString();
         this.lokasi = in.readString();
         this.deskripsi = in.readString();
+        this.image = in.readString();
     }
 
-    public static final Creator<Destination> CREATOR = new Creator<Destination>(){
+    public static final Creator<Destination> CREATOR = new Creator<Destination>() {
 
         @Override
         public Destination createFromParcel(Parcel parcel) {

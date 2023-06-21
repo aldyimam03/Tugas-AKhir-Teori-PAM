@@ -2,6 +2,7 @@ package aiw.mobile.ta_pam.Adapter;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -11,9 +12,12 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -26,9 +30,11 @@ import aiw.mobile.ta_pam.databinding.ItemViewBinding;
 public class AdapterDestination extends RecyclerView.Adapter<AdapterDestination.ViewHolder> {
 
     private final ArrayList<Destination> listDestination;
+    private final Context context;
 
-    public AdapterDestination(ArrayList<Destination> listDestination) {
+    public AdapterDestination(ArrayList<Destination> listDestination, Context context) {
         this.listDestination = listDestination;
+        this.context = context;
     }
 
     @NonNull
@@ -54,6 +60,7 @@ public class AdapterDestination extends RecyclerView.Adapter<AdapterDestination.
         FirebaseAuth mAuth;
         FirebaseDatabase firebaseDatabase;
         DatabaseReference databaseReference;
+
         public ViewHolder(ItemViewBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
@@ -64,7 +71,7 @@ public class AdapterDestination extends RecyclerView.Adapter<AdapterDestination.
             databaseReference = firebaseDatabase.getReference();
         }
 
-        public void bind(Destination destination){
+        public void bind(Destination destination) {
             binding.tvTitleDestinasi.setText(destination.getNama());
             binding.ivPensil.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -100,6 +107,9 @@ public class AdapterDestination extends RecyclerView.Adapter<AdapterDestination.
                     v.getContext().startActivity(intent);
                 }
             });
+            Glide.with(context)
+                    .load(destination.getImage())
+                    .into(binding.ivGambarDestinasi);
         }
     }
 }

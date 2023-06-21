@@ -19,11 +19,9 @@
         app:srcCompat="@drawable/icon_arrow_back" />
 
     <ImageView
-        android:id="@+id/imageView8"
-        android:layout_width="232dp"
-        android:layout_height="232dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="16dp"
+        android:id="@+id/image_condition"
+        android:layout_width="180dp"
+        android:layout_height="180dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView31"
         app:srcCompat="@drawable/icon_sun" />
@@ -43,71 +41,97 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView32"
+        android:id="@+id/text_city"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="172dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="50dp"
         android:fontFamily="@font/montserrat_extrabold"
         android:text="Malang"
         android:textColor="@color/white"
-        android:textSize="25dp"
+        android:textSize="48dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/iv_back_weather" />
 
     <TextView
-        android:id="@+id/textView33"
+        android:id="@+id/text_coordinate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
-        tools:layout_editor_absoluteX="24dp"
-        tools:layout_editor_absoluteY="296dp" />
+        android:textSize="16sp"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toStartOf="@+id/text_city"
+        app:layout_constraintTop_toBottomOf="@+id/text_city"
+        tools:text="-8, 112.625" />
 
     <TextView
-        android:id="@+id/textView34"
+        android:id="@+id/text_condition"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
-        tools:layout_editor_absoluteX="181dp"
-        tools:layout_editor_absoluteY="412dp" />
+        android:layout_marginTop="12dp"
+        android:textSize="16sp"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/image_condition"
+        tools:text="Sunny" />
 
     <TextView
-        android:id="@+id/textView35"
+        android:id="@+id/text_title_temperature"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
-        tools:layout_editor_absoluteX="50dp"
-        tools:layout_editor_absoluteY="442dp" />
+        android:text="Temperature"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toStartOf="@+id/text_title_windspeed"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/text_title_windspeed" />
 
     <TextView
-        android:id="@+id/textView36"
+        android:id="@+id/text_temperature"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
-        tools:layout_editor_absoluteX="289dp"
-        tools:layout_editor_absoluteY="443dp" />
+        android:textSize="48sp"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="@+id/text_title_temperature"
+        app:layout_constraintHorizontal_bias="0.475"
+        app:layout_constraintStart_toStartOf="@+id/text_title_temperature"
+        app:layout_constraintTop_toBottomOf="@+id/text_title_temperature"
+        tools:text="29" />
 
     <TextView
-        android:id="@+id/textView37"
+        android:id="@+id/text_title_windspeed"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
-        tools:layout_editor_absoluteX="53dp"
-        tools:layout_editor_absoluteY="472dp" />
+        android:layout_marginTop="24dp"
+        android:text="Wind Speed"
+        android:textColor="@color/white"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/text_title_temperature"
+        app:layout_constraintTop_toBottomOf="@+id/text_condition" />
 
     <TextView
-        android:id="@+id/textView38"
+        android:id="@+id/text_windspeed"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
-        tools:layout_editor_absoluteX="289dp"
-        tools:layout_editor_absoluteY="472dp" />
+        android:textSize="48sp"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="@+id/text_title_windspeed"
+        app:layout_constraintHorizontal_bias="0.2"
+        app:layout_constraintStart_toStartOf="@+id/text_title_windspeed"
+        app:layout_constraintTop_toBottomOf="@+id/text_title_windspeed"
+        tools:text="12.2" />
 
     <TextView
-        android:id="@+id/textView39"
+        android:id="@+id/text_windspeed_unit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
-        tools:layout_editor_absoluteX="293dp"
-        tools:layout_editor_absoluteY="504dp" />
+        android:text="mph"
+        android:textSize="16sp"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="@+id/text_windspeed"
+        app:layout_constraintStart_toStartOf="@+id/text_windspeed"
+        app:layout_constraintTop_toBottomOf="@+id/text_windspeed" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
