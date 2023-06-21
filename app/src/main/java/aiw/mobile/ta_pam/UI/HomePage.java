@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -50,19 +51,13 @@ public class HomePage extends AppCompatActivity {
     Button checkWeather, checkLocation, btnAdd;
     private Geocoder geocoder;
     FirebaseAuth mAuth;
-    FirebaseDatabase firebaseDatabase;
-    DatabaseReference databaseReference;
-    DatabaseReference destiantion;
-    private AdapterDestination adapterDestination;
     FusedLocationProviderClient locationProviderClient;
 
-    RecyclerView Test;
-    private ArrayList<Destination> destinationArrayList;
+    private FragmentManager fm;
+    private DestinationListFragment destinationListFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
 
@@ -78,9 +73,6 @@ public class HomePage extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         geocoder = new Geocoder(this, Locale.getDefault());
         locationProviderClient = LocationServices.getFusedLocationProviderClient(HomePage.this);
-
-        databaseReference = FirebaseDatabase.getInstance("https://uap-pam-1-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference();
-        destiantion = this.databaseReference.child("destination");
 
         checkLocation.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -117,6 +109,13 @@ public class HomePage extends AppCompatActivity {
             startActivity(intent);
         });
 
+        this.fm = getSupportFragmentManager();
+        this.destinationListFragment = new DestinationListFragment();
+
+        fm.beginTransaction()
+                .add(R.id.frameRecyclerView, destinationListFragment,"FDestination")
+                .commit();
+
 
     // Dummy
 //        destinationArrayList = new ArrayList<>();
@@ -127,12 +126,6 @@ public class HomePage extends AppCompatActivity {
 //        destinationArrayList.add(destination2);
 //        Destination destination3 = new Destination("Air Terjun", "Dalam", "Malang");
 //        destinationArrayList.add(destination3);
-
-        Test = findViewById(R.id.rv_Homepage);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        Test.setLayoutManager(layoutManager);
-
-        getAllData();
     }
 
     @Override
@@ -142,27 +135,6 @@ public class HomePage extends AppCompatActivity {
         if (currentUser != null) {
             tvEmail.setText(currentUser.getEmail());
         }
-    }
-
-    private void getAllData(){
-        this.destiantion.child(mAuth.getUid()).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                destinationArrayList = new ArrayList<>();
-                for (DataSnapshot s: snapshot.getChildren()){
-                    Destination d = s.getValue(Destination.class);
-                    System.out.println(d.getNama());
-                    d.setKey(s.getKey());
-                    destinationArrayList.add(d);
-                }
-                adapterDestination = new AdapterDestination(destinationArrayList);
-                Test.setAdapter(adapterDestination);
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                System.out.println("error");
-            }
-        });
     }
 
     @Override
