@@ -1,9 +1,13 @@
 package aiw.mobile.ta_pam.UI;
 
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -24,10 +28,12 @@ public class AddPage extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private FirebaseDatabase firebaseDatabase;
+    private Uri imageUri;
     private DatabaseReference databaseReference;
+    private ActivityResultLauncher<String> selectImage;
     ImageView ivBackAdd;
     EditText addNama1, addLokasi1, addDeskripsi1;
-    Button btnAddDestination;
+    Button btnAddDestination, btnUpload;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +45,7 @@ public class AddPage extends AppCompatActivity {
         addDeskripsi1 = findViewById(R.id.editDeskripsi1);
         btnAddDestination = findViewById(R.id.btSaveDestiantion);
         ivBackAdd = findViewById(R.id.ivBackAdd);
+        btnUpload = findViewById(R.id.btnUploadImage);
 
         mAuth = FirebaseAuth.getInstance();
         firebaseDatabase = FirebaseDatabase.getInstance("https://uap-pam-1-default-rtdb.asia-southeast1.firebasedatabase.app/");
@@ -50,7 +57,7 @@ public class AddPage extends AppCompatActivity {
                 String nama = addNama1.getText().toString();
                 String lokasi = addLokasi1.getText().toString();
                 String deskripsi = addDeskripsi1.getText().toString();
-                Destination baru =new Destination(nama, lokasi, deskripsi);
+                Destination baru = new Destination(nama, lokasi, deskripsi);
 
                 databaseReference.child("destination").child(mAuth.getUid()).push().setValue(baru).addOnSuccessListener(AddPage.this, new OnSuccessListener<Void>() {
                     @Override
@@ -73,6 +80,22 @@ public class AddPage extends AppCompatActivity {
                 Intent intent = new Intent(AddPage.this, HomePage.class);
                 startActivity(intent);
             }
+        });
+    }
+
+    private void setupUpload() {
+        selectImage = registerForActivityResult(new ActivityResultContracts.GetContent(),
+                new ActivityResultCallback<Uri>() {
+                    @Override
+                    public void onActivityResult(Uri result) {
+                        if (result != null) {
+                            imageUri = result;
+                        }
+                    }
+                });
+
+        btnUpload.setOnClickListener(v -> {
+            selectImage.launch("image/*");
         });
     }
 }

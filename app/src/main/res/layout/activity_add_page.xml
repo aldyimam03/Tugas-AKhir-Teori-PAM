@@ -7,6 +7,34 @@
     android:background="@drawable/padang_pasir_gelap"
     tools:context=".UI.EditPage">
 
+    <LinearLayout
+        android:id="@+id/layoutUploadPicture"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="@id/editNama1"
+        app:layout_constraintStart_toStartOf="@id/editNama1"
+        app:layout_constraintTop_toBottomOf="@id/ivBackAdd">
+
+        <EditText
+            android:id="@+id/edtImageName"
+            android:layout_width="240dp"
+            android:layout_height="48dp"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/shape_putih"
+            android:hint="Upload Gambar"
+            android:inputType="none"
+            android:paddingStart="20dp" />
+
+        <Button
+            android:id="@+id/btnUploadImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#3F95EC"
+            android:text="Upload"
+            android:textAllCaps="false"
+            android:textColor="@color/white" />
+
+    </LinearLayout>
 
     <EditText
         android:id="@+id/editLokasi1"
@@ -64,7 +92,6 @@
         android:id="@+id/tvNama"
         android:layout_width="80dp"
         android:layout_height="32dp"
-        android:layout_marginTop="76dp"
         android:fontFamily="@font/montserrat_extrabold"
         android:text="@string/Nama"
         android:textColor="@color/white"
@@ -72,7 +99,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.108"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView22" />
+        app:layout_constraintTop_toBottomOf="@+id/layoutUploadPicture" />
 
     <TextView
         android:id="@+id/tvDeskripsi"
@@ -116,11 +143,11 @@
         android:layout_height="80dp"
         android:background="@drawable/shape_biru"
         android:fontFamily="@font/montserrat_bold"
-        android:textAlignment="center"
         android:paddingTop="23dp"
-        android:textSize="24sp"
-        android:textColor="@color/white"
         android:text="Add"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
