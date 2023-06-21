@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,6 +22,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import aiw.mobile.ta_pam.Model.Destination;
 import aiw.mobile.ta_pam.UI.DetailDestinationPage;
@@ -27,14 +30,16 @@ import aiw.mobile.ta_pam.UI.EditPage;
 import aiw.mobile.ta_pam.UI.HomePage;
 import aiw.mobile.ta_pam.databinding.ItemViewBinding;
 
-public class AdapterDestination extends RecyclerView.Adapter<AdapterDestination.ViewHolder> {
+public class AdapterDestination extends RecyclerView.Adapter<AdapterDestination.ViewHolder> implements Filterable {
 
     private final ArrayList<Destination> listDestination;
+    private ArrayList<Destination> filteredList;
     private final Context context;
 
     public AdapterDestination(ArrayList<Destination> listDestination, Context context) {
         this.listDestination = listDestination;
         this.context = context;
+        filteredList = listDestination;
     }
 
     @NonNull
@@ -46,12 +51,46 @@ public class AdapterDestination extends RecyclerView.Adapter<AdapterDestination.
 
     @Override
     public void onBindViewHolder(@NonNull AdapterDestination.ViewHolder holder, int position) {
-        holder.bind(listDestination.get(position));
+        holder.bind(filteredList.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return listDestination.size();
+        return filteredList.size();
+    }
+
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+
+            //melakukan proses filter
+            @Override
+            protected FilterResults performFiltering(CharSequence search) {
+                FilterResults results = new FilterResults();
+                if (search.length() == 0) {
+                    filteredList = listDestination;
+                    results.count = filteredList.size();
+                    results.values = filteredList;
+                } else {
+                    filteredList = new ArrayList<>();
+                    for (Destination d: listDestination) {
+                        if (d.getNama().toLowerCase().contains(search)) {
+                            filteredList.add(d);
+                        }
+                    }
+                    results.count = filteredList.size();
+                    results.values = filteredList;
+                }
+                return results;
+            }
+
+            //menampilkan proses filter
+            @Override
+            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+                filteredList = (ArrayList<Destination>) filterResults.values;
+                notifyDataSetChanged();
+            }
+        };
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
