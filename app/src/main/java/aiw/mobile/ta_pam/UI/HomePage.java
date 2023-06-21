@@ -118,7 +118,7 @@ public class HomePage extends AppCompatActivity {
         });
 
 
-    // Dummy
+        // Dummy
 //        destinationArrayList = new ArrayList<>();
 //
 //        Destination destination1 = new Destination("Pantai", "Dingin", "Malang");
@@ -136,7 +136,7 @@ public class HomePage extends AppCompatActivity {
     }
 
     @Override
-    protected void onStart () {
+    protected void onStart() {
         super.onStart();
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null) {
@@ -144,20 +144,21 @@ public class HomePage extends AppCompatActivity {
         }
     }
 
-    private void getAllData(){
+    private void getAllData() {
         this.destiantion.child(mAuth.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 destinationArrayList = new ArrayList<>();
-                for (DataSnapshot s: snapshot.getChildren()){
+                for (DataSnapshot s : snapshot.getChildren()) {
                     Destination d = s.getValue(Destination.class);
                     System.out.println(d.getNama());
                     d.setKey(s.getKey());
                     destinationArrayList.add(d);
                 }
-                adapterDestination = new AdapterDestination(destinationArrayList);
+                adapterDestination = new AdapterDestination(destinationArrayList, getApplicationContext());
                 Test.setAdapter(adapterDestination);
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 System.out.println("error");
@@ -166,8 +167,8 @@ public class HomePage extends AppCompatActivity {
     }
 
     @Override
-    public void onRequestPermissionsResult ( int requestCode, @NonNull String[] permissions,
-                                             @NonNull int[] grantResults){
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == 10) {
             if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
@@ -181,7 +182,7 @@ public class HomePage extends AppCompatActivity {
         }
     }
 
-    private void getLocation () {
+    private void getLocation() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // Meminta izin lokasi

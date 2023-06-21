@@ -9,12 +9,16 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+
 import aiw.mobile.ta_pam.Model.Destination;
 import aiw.mobile.ta_pam.R;
 
 public class DetailDestinationPage extends AppCompatActivity {
 
     ImageView iv_back;
+    ImageView destinationImage;
     Button btn_contactUs;
     TextView tvTitleDetailDestination;
     TextView tvLocationDetailDestination;
@@ -29,6 +33,7 @@ public class DetailDestinationPage extends AppCompatActivity {
         setContentView(R.layout.activity_detail_destination_page);
 
         iv_back = findViewById(R.id.ivBack);
+        destinationImage = findViewById(R.id.imageView10);
         btn_contactUs = findViewById(R.id.btn_contactUs);
 
         destination = getIntent().getParcelableExtra("EXTRA DESTINATION");
@@ -42,6 +47,9 @@ public class DetailDestinationPage extends AppCompatActivity {
         tvTitleDetailDestination.setText(destination.getNama());
         tvLocationDetailDestination.setText(destination.getLokasi());
         tvDeskripsiDetailDestination.setText(destination.getDeskripsi());
+        Glide.with(getApplicationContext())
+                .load(destination.getImage())
+                .into(destinationImage);
 
         iv_back.setOnClickListener(v -> {
             Intent intent = new Intent(DetailDestinationPage.this, HomePage.class);

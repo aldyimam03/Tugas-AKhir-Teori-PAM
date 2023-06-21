@@ -55,8 +55,9 @@ public class EditPage extends AppCompatActivity {
                 String nama = editNama1.getText().toString();
                 String lokasi = editLokasi1.getText().toString();
                 String deskripsi = editDeskripsi1.getText().toString();
-                
-                databaseReference.child("destination").child(mAuth.getUid()).child(destination.getKey()).setValue(new Destination(nama, lokasi, deskripsi)).addOnSuccessListener(new OnSuccessListener<Void>() {
+                //TODO: NEED TO BE UPDATE
+
+                databaseReference.child("destination").child(mAuth.getUid()).child(destination.getKey()).setValue(new Destination(nama, lokasi, deskripsi, "")).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
                         Toast.makeText(EditPage.this, "Berhasil Update Destinasi", Toast.LENGTH_SHORT).show();
