@@ -100,7 +100,8 @@
         android:textColor="@color/white"
         android:textSize="14sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/textView9"
+        app:layout_constraintTop_toTopOf="@+id/textView9"
+        app:layout_constraintEnd_toEndOf="@+id/btnAdd"
         tools:layout_editor_absoluteY="214dp" />
 
     <Button
@@ -155,7 +156,8 @@
         android:textColor="@color/black"
         android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/tvSeeAll"
+        app:layout_constraintTop_toTopOf="@+id/btnCheckWeather"
+        app:layout_constraintStart_toEndOf="@+id/btnCheckWeather"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <androidx.fragment.app.FragmentContainerView
@@ -163,9 +165,8 @@
         android:name="aiw.mobile.ta_pam.UI.DestinationListFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:layout_editor_absoluteX="163dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/btnAdd"/>
+        app:layout_constraintTop_toBottomOf="@id/textView9" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
