@@ -3,12 +3,14 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/MSI/AndroidStudioProjects/Tugas-AKhir-Teori-PAM/app/src/main/res/drawable/ic_download.xml" value="0.2555" />
         <entry key="..\:/Users/MSI/AndroidStudioProjects/Tugas-AKhir-Teori-PAM/app/src/main/res/layout/activity_add_page.xml" value="0.22826086956521738" />
         <entry key="..\:/Users/MSI/AndroidStudioProjects/Tugas-AKhir-Teori-PAM/app/src/main/res/layout/activity_check_weather_page.xml" value="0.22826086956521738" />
         <entry key="..\:/Users/MSI/AndroidStudioProjects/Tugas-AKhir-Teori-PAM/app/src/main/res/layout/activity_contact_page.xml" value="0.22826086956521738" />
-        <entry key="..\:/Users/MSI/AndroidStudioProjects/Tugas-AKhir-Teori-PAM/app/src/main/res/layout/activity_detail_destination_page.xml" value="0.22826086956521738" />
+        <entry key="..\:/Users/MSI/AndroidStudioProjects/Tugas-AKhir-Teori-PAM/app/src/main/res/layout/activity_detail_destination_page.xml" value="0.4" />
         <entry key="..\:/Users/MSI/AndroidStudioProjects/Tugas-AKhir-Teori-PAM/app/src/main/res/layout/activity_edit_page.xml" value="0.22826086956521738" />
         <entry key="..\:/Users/MSI/AndroidStudioProjects/Tugas-AKhir-Teori-PAM/app/src/main/res/layout/activity_edit_profile.xml" value="0.22826086956521738" />
+        <entry key="..\:/Users/MSI/AndroidStudioProjects/Tugas-AKhir-Teori-PAM/app/src/main/res/layout/activity_home_page.xml" value="0.25" />
         <entry key="..\:/Users/MSI/AndroidStudioProjects/Tugas-AKhir-Teori-PAM/app/src/main/res/layout/activity_upload.xml" value="0.22826086956521738" />
       </map>
     </option>
