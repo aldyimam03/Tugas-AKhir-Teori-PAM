@@ -75,7 +75,7 @@ public class DestinationListFragment extends Fragment {
                 }
                 adapterDestination = new AdapterDestination(destinationArrayList, layout.getContext());
                 rvDestination.setAdapter(adapterDestination);
-                host.Search(adapterDestination);
+               // host.Search(adapterDestination);
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
