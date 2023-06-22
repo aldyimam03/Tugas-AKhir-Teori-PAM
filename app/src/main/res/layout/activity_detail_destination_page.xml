@@ -89,4 +89,15 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/icon_back_button" />
 
+    <ImageView
+        android:id="@+id/btnDownload"
+        android:layout_width="40dp"
+        android:layout_height="39dp"
+        android:layout_marginTop="44dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.956"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_download" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

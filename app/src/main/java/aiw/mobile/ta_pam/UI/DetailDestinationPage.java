@@ -2,6 +2,7 @@ package aiw.mobile.ta_pam.UI;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -23,10 +24,12 @@ public class DetailDestinationPage extends AppCompatActivity {
     TextView tvTitleDetailDestination;
     TextView tvLocationDetailDestination;
     TextView tvDeskripsiDetailDestination;
+    TextView btn_download;
 
 
     Destination destination;
 
+    @SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +38,7 @@ public class DetailDestinationPage extends AppCompatActivity {
         iv_back = findViewById(R.id.ivBack);
         destinationImage = findViewById(R.id.imageView10);
         btn_contactUs = findViewById(R.id.btn_contactUs);
+        btn_download = findViewById(R.id.btnDownload);
 
         destination = getIntent().getParcelableExtra("EXTRA DESTINATION");
 
