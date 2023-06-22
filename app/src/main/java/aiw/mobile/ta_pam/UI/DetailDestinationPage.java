@@ -1,17 +1,30 @@
 package aiw.mobile.ta_pam.UI;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 import aiw.mobile.ta_pam.Model.Destination;
 import aiw.mobile.ta_pam.R;
@@ -24,7 +37,7 @@ public class DetailDestinationPage extends AppCompatActivity {
     TextView tvTitleDetailDestination;
     TextView tvLocationDetailDestination;
     TextView tvDeskripsiDetailDestination;
-    TextView btn_download;
+    ImageView btn_download;
 
 
     Destination destination;
@@ -69,5 +82,26 @@ public class DetailDestinationPage extends AppCompatActivity {
             startActivity(intent);
         });
 
+        btn_download.setOnClickListener(v -> {
+            ProgressDialog progressDialog = new ProgressDialog(this);
+            progressDialog.setTitle("Uploading file...");
+            progressDialog.show();
+
+            StorageReference storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(destination.getImage());
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy_MM_dd_hh_mm_ss", Locale.US);
+            Date now = new Date();
+            final String fileName = "IMG_" + destination.getNama() + "_" + formatter.format(now);
+            File localFile = new File(getApplicationContext().getFilesDir(), fileName);
+            storageReference.getFile(localFile)
+                    .addOnSuccessListener(taskSnapshot -> {
+                        progressDialog.dismiss();
+                        Toast.makeText(DetailDestinationPage.this, "Berhasil Download Gambar", Toast.LENGTH_SHORT).show();
+                    })
+                    .addOnFailureListener(exception -> {
+                        progressDialog.dismiss();
+                        Toast.makeText(DetailDestinationPage.this, "Gagal Download Gambar", Toast.LENGTH_SHORT).show();
+                    });
+
+        });
     }
 }
