@@ -135,6 +135,8 @@ public class HomePage extends AppCompatActivity {
         if (currentUser != null) {
             tvEmail.setText(currentUser.getEmail());
         }
+        DestinationListFragment dlf = (DestinationListFragment) getSupportFragmentManager().findFragmentByTag("FDestination");
+        dlf.getAllData();
     }
 
     @Override

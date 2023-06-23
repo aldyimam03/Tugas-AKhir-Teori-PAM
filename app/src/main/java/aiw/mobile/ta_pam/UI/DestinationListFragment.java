@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.firebase.auth.FirebaseAuth;
@@ -51,12 +52,10 @@ public class DestinationListFragment extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this.layout.getContext());
         rvDestination.setLayoutManager(layoutManager);
 
-        getAllData();
-
         return this.layout;
     }
 
-    private void getAllData(){
+    public void getAllData(){
         this.destiantion.child(mAuth.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -77,7 +76,28 @@ public class DestinationListFragment extends Fragment {
         });
     }
 
-    public void Search(String keyword) {
-        adapterDestination.getFilter().filter(keyword);
+    public void search(String keyword) {
+        this.destiantion.child(mAuth.getUid()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    destinationArrayList.clear();
+                    for (DataSnapshot s: snapshot.getChildren()) {
+                        Destination d = s.getValue(Destination.class);
+                        if (keyword == null || d.getNama().toLowerCase().contains(keyword.toLowerCase())) {
+                            destinationArrayList.add(d);
+                        }
+                    }
+                    adapterDestination = new AdapterDestination(destinationArrayList, layout.getContext());
+                    rvDestination.setAdapter(adapterDestination);
+                } else {
+                    System.out.println("Data tidak ada");
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                System.out.println("error");
+            }
+        });
     }
 }

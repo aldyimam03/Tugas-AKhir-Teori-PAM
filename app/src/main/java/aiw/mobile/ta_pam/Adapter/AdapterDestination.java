@@ -30,16 +30,14 @@ import aiw.mobile.ta_pam.UI.EditPage;
 import aiw.mobile.ta_pam.UI.HomePage;
 import aiw.mobile.ta_pam.databinding.ItemViewBinding;
 
-public class AdapterDestination extends RecyclerView.Adapter<AdapterDestination.ViewHolder> implements Filterable {
+public class AdapterDestination extends RecyclerView.Adapter<AdapterDestination.ViewHolder>{
 
     private final ArrayList<Destination> listDestination;
-    private ArrayList<Destination> filteredList;
     private final Context context;
 
     public AdapterDestination(ArrayList<Destination> listDestination, Context context) {
         this.listDestination = listDestination;
         this.context = context;
-        filteredList = listDestination;
     }
 
     @NonNull
@@ -51,46 +49,12 @@ public class AdapterDestination extends RecyclerView.Adapter<AdapterDestination.
 
     @Override
     public void onBindViewHolder(@NonNull AdapterDestination.ViewHolder holder, int position) {
-        holder.bind(filteredList.get(position));
+        holder.bind(listDestination.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return filteredList.size();
-    }
-
-    @Override
-    public Filter getFilter() {
-        return new Filter() {
-
-            //melakukan proses filter
-            @Override
-            protected FilterResults performFiltering(CharSequence search) {
-                FilterResults results = new FilterResults();
-                if (search == null || search.length() == 0) {
-                    results.count = filteredList.size();
-                    results.values = filteredList;
-                } else {
-                    String keyword = search.toString().toLowerCase();
-                    filteredList = new ArrayList<>();
-                    for (Destination d: listDestination) {
-                        if (d.getNama().toLowerCase().contains(keyword)) {
-                            filteredList.add(d);
-                        }
-                    }
-                    results.count = filteredList.size();
-                    results.values = filteredList;
-                }
-                return results;
-            }
-
-            //menampilkan proses filter
-            @Override
-            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-                filteredList = (ArrayList<Destination>) filterResults.values;
-                notifyDataSetChanged();
-            }
-        };
+        return listDestination.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
