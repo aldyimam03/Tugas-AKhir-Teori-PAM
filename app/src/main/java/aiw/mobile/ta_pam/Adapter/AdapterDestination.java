@@ -67,14 +67,14 @@ public class AdapterDestination extends RecyclerView.Adapter<AdapterDestination.
             @Override
             protected FilterResults performFiltering(CharSequence search) {
                 FilterResults results = new FilterResults();
-                if (search.length() == 0) {
-                    filteredList = listDestination;
+                if (search == null || search.length() == 0) {
                     results.count = filteredList.size();
                     results.values = filteredList;
                 } else {
+                    String keyword = search.toString().toLowerCase();
                     filteredList = new ArrayList<>();
                     for (Destination d: listDestination) {
-                        if (d.getNama().toLowerCase().contains(search)) {
+                        if (d.getNama().toLowerCase().contains(keyword)) {
                             filteredList.add(d);
                         }
                     }

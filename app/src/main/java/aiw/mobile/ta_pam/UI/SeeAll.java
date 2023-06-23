@@ -12,7 +12,7 @@ import aiw.mobile.ta_pam.Adapter.AdapterDestination;
 import aiw.mobile.ta_pam.Model.Destination;
 import aiw.mobile.ta_pam.R;
 
-public class SeeAll extends AppCompatActivity implements IHost{
+public class SeeAll extends AppCompatActivity{
 
     EditText searchBar;
     private FragmentManager fm;
@@ -26,15 +26,10 @@ public class SeeAll extends AppCompatActivity implements IHost{
         this.fm = getSupportFragmentManager();
         this.destinationListFragment = new DestinationListFragment();
 
-        destinationListFragment.setHost(this);
-
         fm.beginTransaction()
                 .add(R.id.frameRecyclerView, destinationListFragment,"FDestination")
                 .commit();
-    }
 
-    @Override
-    public void Search(AdapterDestination adapterDestination) {
         searchBar.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
@@ -44,7 +39,8 @@ public class SeeAll extends AppCompatActivity implements IHost{
 
             @Override
             public void afterTextChanged(Editable editable) {
-                adapterDestination.getFilter().filter(editable.toString());
+                DestinationListFragment dlf = (DestinationListFragment) getSupportFragmentManager().findFragmentByTag("FDestination");
+                dlf.Search(editable.toString());
             }
         });
     }

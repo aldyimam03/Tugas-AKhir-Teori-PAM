@@ -37,8 +37,6 @@ public class DestinationListFragment extends Fragment {
     RecyclerView rvDestination;
     private ArrayList<Destination> destinationArrayList;
 
-    private IHost host;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -58,10 +56,6 @@ public class DestinationListFragment extends Fragment {
         return this.layout;
     }
 
-    public void setHost(IHost activity) {
-        this.host = activity;
-    }
-
     private void getAllData(){
         this.destiantion.child(mAuth.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
@@ -75,7 +69,6 @@ public class DestinationListFragment extends Fragment {
                 }
                 adapterDestination = new AdapterDestination(destinationArrayList, layout.getContext());
                 rvDestination.setAdapter(adapterDestination);
-               // host.Search(adapterDestination);
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
@@ -84,7 +77,7 @@ public class DestinationListFragment extends Fragment {
         });
     }
 
-    public AdapterDestination getAdapter() {
-        return this.adapterDestination;
+    public void Search(String keyword) {
+        adapterDestination.getFilter().filter(keyword);
     }
 }
