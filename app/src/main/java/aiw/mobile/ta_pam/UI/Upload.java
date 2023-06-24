@@ -41,6 +41,7 @@ public class Upload extends AppCompatActivity {
     private DatabaseReference usersRef;
 
     private Handler handler;
+    private Thread uploadThread;
 
     private ActivityResultLauncher<String> selectImage;
 
@@ -50,8 +51,9 @@ public class Upload extends AppCompatActivity {
         binding = ActivityUploadBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        // Inisialisasi Handler
+        // Inisialisasi Handler dan Thread
         handler = new Handler(Looper.getMainLooper());
+        uploadThread = new Thread();
 
         // setOnClickListener untuk button back
         binding.ivBackUpload.setOnClickListener(v -> {
@@ -63,7 +65,16 @@ public class Upload extends AppCompatActivity {
         binding.btnSelectImage.setOnClickListener(v -> selectImage.launch("image/*"));
 
         // setOnClickListener untuk button upload image
-        binding.btnUploadImage.setOnClickListener(v -> uploadImage());
+        binding.btnUploadImage.setOnClickListener(v -> {
+            // Memulai thread untuk upload image
+            uploadThread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    uploadImage();
+                }
+            });
+            uploadThread.start();
+        });
 
         // Inisialisasi ActivityResultLauncher
         selectImage = registerForActivityResult(new ActivityResultContracts.GetContent(),
@@ -89,53 +100,63 @@ public class Upload extends AppCompatActivity {
 
     // Method untuk mengupload gambar ke Firebase Storage dan mengupdate foto profil pengguna
     private void uploadImage() {
-        if (imageUri != null) {
-            progressDialog = new ProgressDialog(this);
-            progressDialog.setTitle("Uploading file...");
-            progressDialog.show();
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                progressDialog = new ProgressDialog(Upload.this);
+                progressDialog.setTitle("Uploading file...");
+                progressDialog.show();
+            }
+        });
 
-            // Dapatkan username pengguna dari intent
-            String usernameUser = getIntent().getStringExtra("username");
+        // Dapatkan username pengguna dari intent
+        String usernameUser = getIntent().getStringExtra("username");
 
-            // Format tanggal dan nama file gambar
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy_MM_dd_hh_mm_ss", Locale.CANADA);
-            Date now = new Date();
-            final String fileName = "IMG_" + usernameUser + "_" + formatter.format(now);
+        // Format tanggal dan nama file gambar
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy_MM_dd_hh_mm_ss", Locale.CANADA);
+        Date now = new Date();
+        final String fileName = "IMG_" + usernameUser + "_" + formatter.format(now);
 
-            // Mereferensikan tempat gambar disimpan
-            storageReference = FirebaseStorage.getInstance().getReference("images/" + fileName);
+        // Mereferensikan tempat gambar disimpan
+        storageReference = FirebaseStorage.getInstance().getReference("images/" + fileName);
 
-            // Mengupload gambar ke Firebase Storage
-            storageReference.putFile(imageUri)
-                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            // Dapatkan URL unduh gambar dari Firebase Storage
-                            storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                @Override
-                                public void onSuccess(Uri downloadUri) {
-                                    // Update foto profil pengguna di Firebase Realtime Database
-                                    updateUserProfilePicture(downloadUri.toString());
-                                    progressDialog.dismiss();
-                                    Toast.makeText(Upload.this, "Image successfully uploaded!", Toast.LENGTH_SHORT).show();
-                                    Intent intent = new Intent(Upload.this, ProfilePage.class);
-                                    startActivity(intent);
-                                }
-                            });
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            progressDialog.dismiss();
-                            Toast.makeText(Upload.this, "Image upload failed, please try again.", Toast.LENGTH_SHORT).show();
-                            Log.e("Firebase Storage", "Error: " + e.getMessage());
-                        }
-                    });
-        } else {
-            // Menampilkan pesan jika belum memilih foto
-            Toast.makeText(Upload.this, "No image selected.", Toast.LENGTH_SHORT).show();
-        }
+        // Mengupload gambar ke Firebase Storage
+        storageReference.putFile(imageUri)
+                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        // Dapatkan URL unduh gambar dari Firebase Storage
+                        storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri downloadUri) {
+                                // Update foto profil pengguna di Firebase Realtime Database
+                                updateUserProfilePicture(downloadUri.toString());
+                                handler.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        progressDialog.dismiss();
+                                        Toast.makeText(Upload.this, "Image successfully uploaded!", Toast.LENGTH_SHORT).show();
+                                        Intent intent = new Intent(Upload.this, ProfilePage.class);
+                                        startActivity(intent);
+                                    }
+                                });
+                            }
+                        });
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        handler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                progressDialog.dismiss();
+                                Toast.makeText(Upload.this, "Image upload failed, please try again.", Toast.LENGTH_SHORT).show();
+                                Log.e("Firebase Storage", "Error: " + e.getMessage());
+                            }
+                        });
+                    }
+                });
     }
 
     // Method untuk mengupdate foto profil pengguna di Firebase Realtime Database
