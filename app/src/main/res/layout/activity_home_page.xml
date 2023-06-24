@@ -7,7 +7,7 @@
     android:background="@drawable/home_page_bg">
 
     <ImageView
-        android:id="@+id/iv_twitter"
+        android:id="@+id/ivMyPicture"
         android:layout_width="34dp"
         android:layout_height="34dp"
         android:layout_marginTop="40dp"
@@ -67,11 +67,11 @@
         app:layout_constraintTop_toBottomOf="@+id/tvLocation" />
 
     <TextView
-        android:id="@+id/et_Email"
+        android:id="@+id/tvMyUsername"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
-        android:text="@string/user"
+        android:text="User"
         android:textColor="@color/white"
         android:textSize="20sp"
         android:textStyle="bold"
@@ -139,9 +139,9 @@
         android:layout_width="34dp"
         android:layout_height="34dp"
         android:layout_marginStart="40dp"
-        app:layout_constraintBottom_toBottomOf="@+id/iv_twitter"
+        app:layout_constraintBottom_toBottomOf="@+id/ivMyPicture"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/iv_twitter"
+        app:layout_constraintTop_toTopOf="@+id/ivMyPicture"
         app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/baseline_settings_24" />
 
