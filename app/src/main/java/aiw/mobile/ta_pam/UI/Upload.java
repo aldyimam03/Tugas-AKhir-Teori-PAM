@@ -53,6 +53,12 @@ public class Upload extends AppCompatActivity {
         // Inisialisasi Handler
         handler = new Handler(Looper.getMainLooper());
 
+        // setOnClickListener untuk button back
+        binding.ivBackUpload.setOnClickListener(v -> {
+            Intent intent = new Intent(this, ProfilePage.class);
+            startActivity(intent);
+        });
+
         // setOnClickListener untuk button select image
         binding.btnSelectImage.setOnClickListener(v -> selectImage.launch("image/*"));
 
