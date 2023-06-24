@@ -1,6 +1,6 @@
 # Tugas-AKhir-Teori-PAM
 
-Fungsionalitas : 
+Pembagian Fungsionalitas : 
 1. Login Register, Check Location, CRUD Destination (Aldy Imam Wijaya - 215150700111039)
 2. Search Destination (Danish Alif Arsan - 215150701111005)
 3. Check Weather (Muhammad Nuril Haq - 215150701111015)
