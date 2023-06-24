@@ -3,10 +3,7 @@ package aiw.mobile.ta_pam.UI;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
 import android.content.Intent;
@@ -17,15 +14,14 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -33,21 +29,17 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.database.ktx.FirebaseDatabaseKtxRegistrar;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import aiw.mobile.ta_pam.Adapter.AdapterDestination;
-import aiw.mobile.ta_pam.Model.Destination;
 import aiw.mobile.ta_pam.R;
 
 public class HomePage extends AppCompatActivity {
 
     ImageView ivProfile, ivSetting;
-    TextView seeAll, textViewLocation, tvEmail;
+    TextView seeAll, textViewLocation, tvUsername;
     Button checkWeather, checkLocation, btnAdd;
     private Geocoder geocoder;
     FirebaseAuth mAuth;
@@ -55,24 +47,26 @@ public class HomePage extends AppCompatActivity {
 
     private FragmentManager fm;
     private DestinationListFragment destinationListFragment;
+    private DatabaseReference usersRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
 
-        ivProfile = findViewById(R.id.iv_twitter);
+        ivProfile = findViewById(R.id.ivMyPicture);
         ivSetting = findViewById(R.id.iv_setting);
         seeAll = findViewById(R.id.tvSeeAll);
         btnAdd = findViewById(R.id.btnAdd);
         textViewLocation = findViewById(R.id.tvLocation);
         checkWeather = findViewById(R.id.btnCheckWeather);
         checkLocation = findViewById(R.id.btnCheckLocation);
-        tvEmail = findViewById(R.id.et_Email);
+        tvUsername = findViewById(R.id.tvMyUsername);
 
         mAuth = FirebaseAuth.getInstance();
         geocoder = new Geocoder(this, Locale.getDefault());
         locationProviderClient = LocationServices.getFusedLocationProviderClient(HomePage.this);
+        usersRef = FirebaseDatabase.getInstance().getReference().child("users");
 
         checkLocation.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -133,11 +127,37 @@ public class HomePage extends AppCompatActivity {
         super.onStart();
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null) {
-            tvEmail.setText(currentUser.getEmail());
+            String userUid = currentUser.getUid();
+            //tvUsername.setText(currentUser.getEmail());
+            usersRef.child(userUid).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.exists()) {
+                        String profilePicture = dataSnapshot.child("profilePicture").getValue(String.class);
+                        if (profilePicture != null && !profilePicture.isEmpty()) {
+                            Glide.with(HomePage.this)
+                                    .load(profilePicture)
+                                    .apply(RequestOptions.circleCropTransform())
+                                    .into(ivProfile);
+                        }
+
+                        String username = dataSnapshot.child("username").getValue(String.class);
+                        if (username != null && !username.isEmpty()) {
+                            tvUsername.setText(username);
+                        }
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    Toast.makeText(HomePage.this, "Database Error.", Toast.LENGTH_SHORT).show();
+                }
+            });
         }
         DestinationListFragment dlf = (DestinationListFragment) getSupportFragmentManager().findFragmentByTag("FDestination");
         dlf.getAllData();
     }
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
