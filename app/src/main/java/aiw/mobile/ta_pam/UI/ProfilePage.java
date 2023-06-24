@@ -35,9 +35,11 @@ public class ProfilePage extends AppCompatActivity {
         binding = ActivityProfilePageBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        // Mendapat referensi database dengan nama users
         mAuth = FirebaseAuth.getInstance();
         usersRef = FirebaseDatabase.getInstance().getReference().child("users");
 
+        // Mengambil data user yang sedang login
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null) {
             String userUid = currentUser.getUid();
@@ -69,6 +71,8 @@ public class ProfilePage extends AppCompatActivity {
         // setOnClickListener untuk berpindah ke halaman upload
         binding.btnUploadPage.setOnClickListener(view -> {
             Intent intent = new Intent(ProfilePage.this, Upload.class);
+            String username = binding.tvUsername.getText().toString();
+            intent.putExtra("username", username);
             startActivity(intent);
         });
 
@@ -80,13 +84,13 @@ public class ProfilePage extends AppCompatActivity {
             String fullname = binding.tvFullName.getText().toString();
             String email = binding.tvEmail.getText().toString();
             String username = binding.tvUsername.getText().toString();
-            String profilePicture = ""; // Mengambil URL foto profil dari Firebase Realtime Database
+            //String profilePicture = ""; // Mengambil URL foto profil dari Firebase Realtime Database
 
             // Menambahkan data pengguna ke intent
             intent.putExtra("fullname", fullname);
             intent.putExtra("email", email);
             intent.putExtra("username", username);
-            intent.putExtra("profilePicture", profilePicture);
+            //intent.putExtra("profilePicture", profilePicture);
 
             // Memulai aktivitas EditProfile dengan intent yang sudah diisi
             startActivityForResult(intent, REQUEST_CODE_EDIT_PROFILE);
@@ -116,8 +120,6 @@ public class ProfilePage extends AppCompatActivity {
             Toast.makeText(this, "Profile updated successfully", Toast.LENGTH_SHORT).show();
         }
     }
-
-
 
     private void displayUserInfo(User user) {
         // Menampilkan data User pada tampilan ProfilePage
